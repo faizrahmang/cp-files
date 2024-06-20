@@ -1,0 +1,37 @@
+//leetcode most profit assigned to work code snippet
+class Solution {
+    public int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
+      int maxDifficulty=0;
+      for(int i: difficulty)
+      {
+        maxDifficulty = (i>maxDifficulty)? i:maxDifficulty;
+      }
+
+      int[] adjMax = new int[maxDifficulty+1];
+    
+      for(int i=0;i<difficulty.length;i++)
+      {
+            if(profit[i] > adjMax[difficulty[i]])
+                adjMax[difficulty[i]]=profit[i];
+      }
+    
+        for(int i =1;i<=maxDifficulty;i++)
+        {
+            adjMax[i] = Math.max(adjMax[i],adjMax[i-1]);
+        }
+
+        int profits= 0;
+        for(int i: worker)
+        {
+            if(i>maxDifficulty)
+            {
+                profits+=adjMax[maxDifficulty];
+            }
+            else
+            {
+                profits+=adjMax[i];
+            }
+        }
+        return profits;
+    }
+}
